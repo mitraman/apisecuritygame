@@ -5,7 +5,7 @@
   "web": "index.js",
   "dependencies": {
     "express": "4.x",
-    "body-parser": "1.x",    
+    "body-parser": "1.x"
   },
   "author": "Ronnie Mitra",
   "license": "ISC"
