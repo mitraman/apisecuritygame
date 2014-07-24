@@ -5,7 +5,12 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
+// Static directory
 app.use('/docs', express.static('docs'));
+
+// Setup database connection
+var pg = require('pg');
+var conString = "postgres://localhost/security_game";
 
 // API
 app.get('/', function(req, res){
@@ -140,7 +145,7 @@ app.delete('/publicitytax/records', function( req, res ) {
         message: "congratulations, you have made it to level 4!",
         next: "/remedybus"
     };
-    res.send(response);
+    res.send(202, response);
 });
            
             
@@ -248,13 +253,37 @@ app.get('/speakercube/secret', function( req, res ) {
  * Level 6
  * 
 */
-app.get('/stoneorder', function( req, res ) {
-    var response = {
-        level: "6",
-        instructions: "",
-        hint: ""
-    };
-    res.send(response);
+app.get('/stoneorder/:orderId', function( req, res ) {
+    var id = req.params.orderId;
+
+    pg.connect(conString, function(err, client, done) {
+      if(err) {
+        return console.error('error fetching client from pool', err);
+      }
+        var queryString = 'SELECT * from orders where order_id = ' + id;
+      client.query(queryString, function(err, result) {
+        //call `done()` to release the client back to the pool
+        done();
+
+        if(err) {
+              res.send(500, 'unable to retrieve orders');
+          return console.error('error running query', err);          
+        }
+          
+          var orderResult = [];
+          for( var i = 0; i < result.rowCount; i++ ) {
+              orderResult.push(result.rows[i]);
+          }
+          
+          var response = {
+            level: "6",
+            orders: orderResult
+          };
+          res.send(response);
+        
+        //output: 1
+      });
+    });    
 });
 
 /**
