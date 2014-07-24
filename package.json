@@ -2,11 +2,10 @@
   "name": "securitygame",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "web": "index.js",
   "dependencies": {
     "express": "4.x",
-    "body-parser": "1.x",
-    "pg": "~3.4.0"
+    "body-parser": "1.x",    
   },
   "author": "Ronnie Mitra",
   "license": "ISC"
