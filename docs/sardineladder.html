@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link rel="stylesheet" href="/docs/css/superhero.bootstrap.min.css">
+    <link rel="stylesheet" href="/docs/css/cyborg.bootstrap.min.css">
 </head>
 <body>
     <script src="/docs/js/jquery.min.js"></script>
@@ -14,7 +14,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Level 3 - API Documentation</a>
+          <a class="navbar-brand" href="#">API Documentation</a>
         </div>        
       </div>
     </div>
@@ -22,8 +22,8 @@
      <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>The Tax Record API</h1>
-        <p>An API for retrieval of national tax records.</p>
+        <h1>The Sardine API</h1>
+        <p>Driving Sardine Inovation and Sardine Based Mobile Experiences!</p>
       </div>
     </div>
     
@@ -34,9 +34,9 @@
     <div class="col-md-2">
         <div class="row">
         <div class="col-md-12">
-            <h3>Operations:</h3>
-            <h4>Add a New Record</h4>
-            <h4>Retrieve Records</h4>
+            <h3>Operations:</h3>            
+            <h4>Create a new Sardine Order</h4>
+            <h4>Retrieve Sardine Order Status</h4>
         </div>
         </div>
     </div>
@@ -45,14 +45,14 @@
       <!-- Example row of columns -->
      <div class="row">
         <div class="col-md-12">
-            <div class="page-header"><h2>Add a new Record</h2><h4>*Only available to authorized clients</h4></div>
+            <div class="page-header"><h2>Create a new order</h2></div>
             
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">Request</h3>
                 </div>
                 <div class="panel-body">                    
-                    <span class="label label-primary">POST</span><h4>/{api-root}/records</h4>
+                    <span class="label label-primary">POST</span><h4>/sardeineorder/orders</h4>
                     <pre>{
     "statement_date": "14/07/2013",
     "amount_due": "2399.00"
@@ -65,8 +65,7 @@
                 </div>
                 <div class="panel-body">
 <pre>{
-    "level": "3",
-    "result": "successful"
+    "order_number": "8820023-28"
 }</pre>
                 </div>
             </div>
@@ -76,13 +75,13 @@
         
       <div class="row">
         <div class="col-md-12">
-            <div class="page-header"><h2>Retrieve Tax Records</h2></div>
+            <div class="page-header"><h2>Retrieve Sardine Order Status</h2></div>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">Request</h3>
                 </div>
                 <div class="panel-body">                    
-                    <span class="label label-success">GET</span><h4>/{api-root}/records</h4>                        
+                    <span class="label label-success">GET</span><h4>/sardineorder/orders</h4>                        
                 </div>
             </div>
             <div class="panel panel-success">
@@ -90,12 +89,11 @@
                     <h3 class="panel-title">Sample Response</h3>
                 </div>
                 <div class="panel-body">
-<pre>{
-    "level": "3",
-    "records": [
+<pre>{    
+    "orders": [
         {
-            "statement_date": "14/07/2013",
-            "amount_due": "2399.00"
+            "id": "8820023-28",
+            "status": "pending"
         }
     ]
 }</pre>
