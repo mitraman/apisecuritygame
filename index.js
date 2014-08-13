@@ -14,11 +14,6 @@ app.use('/docs', express.static('docs'));
 var pg = require('pg');
 var conString = "postgres://localhost/security_game";
 
-// Level shortnames
-/*var levelNames = ["granitebed", "funnybadger", "valuehorn", "publicitytax", "remedybus", 
-                  "speakercube", "sardineladder", "tractorguitar", "saladsummit", "stoneorder", "beltpoem"];*/
-var levelNames = [{ id: 'asdfa'}, {id: 'asdf'}, {id: 'asldfj'}]
-
 var levels = {    
     intro : {
         description : "A simple introductory level to teach the player how the game works.",
@@ -54,19 +49,19 @@ var levels = {
     },
     sql_injection: {
         description : "An unprotected SQL call against a postgres DB that is open for exploitation.  The next link is located in the data",
-        uri : "/saladsummit"
+        uri: "/stoneorder"
     },    
     command_injection: {
-        description: "Access a protected file resource (simulated)",
-        uri: "/stoneorder"
+        description: "Access a protected file resource (simulated)",        
+        uri : "/saladsummit"
     },
     mobile_app_key: {
         description: "Extract an API secret key by reverse engineering a mobile app (requires advanced tooling)",
-        uri: "/beltpoem"
+        uri: "/hazygorilla"
     },
     finish: {
         description: "A success message indicating that the player has won the game",
-        uri: "/hazygorilla"
+        uri: "/beltpoem"
     }
 }
 
@@ -125,9 +120,13 @@ function getNextLevelId(currentLevel) {
 }
 
 // API
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
+    res.redirect('/docs/help.html');
+});
+
+app.get('/starthere', function(req, res){
     var firstLevel = levelOrder[0];
-    var response = {message: "GET " +  firstLevel.uri + " to get started."};
+    var response = {message: "The first API is located at " +  firstLevel.uri + ".  Good Luck!"};
     res.send(response);
 })
 
@@ -151,7 +150,9 @@ app.get(levels.intro.uri + '/welcome', function( req, res ) {
     var response = 
     generateResponse(levels.intro, 
     {
-        message: "congratulations, you have made it to the next level!  Follow the link in the next property to retrieve the next set of instructions.",
+        message: "congratulations, you have made it to the next level!  Follow the link with a rel of 'next' to retrieve the next level's instructions."
+    },
+    {
         next: nextLevel
     });
     res.send(response);
@@ -178,7 +179,7 @@ app.get(levels.private_resource.uri + '/hint', function( req, res ) {
     var response = 
     generateResponse(levels.private_resource, 
         {
-            message: "the resource can be accessed by guessing the URL  What is a likely name for an invoices resource? If you are still stuck follow the link to the next hint"
+            message: "the resource can be accessed by guessing the URL.  What is a likely name for an invoices resource? If you are still stuck follow the link to the next hint"
         }, 
         {
             hint: levels.private_resource.uri + '/hint/jackal'
@@ -264,7 +265,7 @@ app.get(levels.unprotected_delete.uri, function( req, res ) {
         generateResponse(levels.unprotected_delete, 
         {
             objective: "Remove a collection of records from an API.",
-            instructions: "Follow the documentation link to see the documentation for this API.  Determine how to remove all of the tax record resources."
+            instructions: "Determine how to remove all of the tax record resources.  Open the documentation link in your browser to read the documentation for this level's API."
         },
         {
             documentation: '/docs/publictytax.html'
@@ -477,7 +478,7 @@ app.get(levels.js_injection.uri + '/hint', function(req, res ) {
 app.get(levels.js_injection.uri + '/hint/BerryBadger', function(req, res ) {
    var response = generateResponse(levels.js_injection, 
     {
-        message: "The server uses the variable responseValue to store the resopnse it is sending.  Try sending response='test' as the body of a POST request.  Consult this API's documentation to find a resource you can POST to."
+        message: "The server uses the variable responseValue to store the response it is sending.  Try sending responseValue='test' as the body of a POST request.  Consult this API's documentation to find a resource you can POST to."
     }
    );
     res.send(response);
@@ -625,7 +626,7 @@ app.get(levels.sql_injection.uri, function( req, res ) {
         generateResponse(levels.sql_injection,
         {
             objective: "Access private data from a database",
-            instructions: "This is an order retrieval API.  A link to the next level is in the description of one of the orders.  You only get one order resource to start with: /stoneorder/orders/1003"
+            instructions: "This is an order retrieval API.  A link to the next level is in the description of one of the orders.  You only get one order resource to start with: " + levels.sql_injection.uri + "/orders/1003"
         },
         {
              hint: levels.sql_injection.uri + '/hint'
@@ -657,7 +658,7 @@ app.get(levels.sql_injection.uri + '/hint/beluga', function( req, res ) {
     res.send(response);    
 });
 
-app.get('/' + levelNames[9] + '/hint/firetruck', function( req, res ) {
+app.get(levels.sql_injection.uri + '/hint/firetruck', function( req, res ) {
     var response = 
         generateResponse(levels.sql_injection, 
         {               
@@ -669,7 +670,7 @@ app.get('/' + levelNames[9] + '/hint/firetruck', function( req, res ) {
     res.send(response);    
 });
 
-app.get('/' + levelNames[9] + '/hint/helicopter', function( req, res ) {
+app.get(levels.sql_injection.uri + '/hint/helicopter', function( req, res ) {
     var response = 
         generateResponse(levels.sql_injection, 
         {
@@ -713,12 +714,22 @@ app.get(levels.sql_injection.uri + '/orders/:orderId', function( req, res ) {
     });    
 });
 
-
+app.get(levels.finish, function( req, res ) {
+    var response = 
+        generateResponse(levels.finish, 
+         {
+             message: "CONGRATULATIONS!  You have finished the API security game."
+         },
+         {
+             reward: "Not Implemented Yet. :("
+         });
+});
 
 /**
  * Level 10
  * 
 */
+/*
 app.get('/' + levelNames[10], function( req, res ) {
     var response = {
         level: "10",
@@ -727,6 +738,7 @@ app.get('/' + levelNames[10], function( req, res ) {
     };
     res.send(response);
 });
+*/
 
 var port = process.env.PORT || 8082;
 app.listen(port);
