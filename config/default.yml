@@ -1,6 +1,9 @@
 # Configuration file for the API Security Game
 # If you want to disable any level, just comment-it out here.
-
+#
+# It is not recommended to modify names of the levels. They are for
+# internal use only, and certain parts of the code depend on them.
+#
 app:
   db_driver: mysql
   db_configs:
@@ -52,10 +55,17 @@ levels:
   objective: "Remove a collection of records from an API."
   instructions: "Determine how to remove all of the tax record resources.  Open the documentation link in your browser to read the documentation for this level's API."
   docs: "/docs/publicitytax.html"
+  solution:
+    module: true
 
   - name: unprotected_collection
   description: "Retrieve a collection to find a hidden datum"
   uri: "/remedybus"
+  objective: "Retrieve a private resource"
+  instructions: "The link to the next level is hidden in Jay Grime's student record. However, the only student record you are authorized to retrieve is: /remedybus/students/778820. Jay Grime's student ID is 778441"
+  solution:
+    module: true
+
   
   - name: spoof_token
   description: "Steal a token from a javascript application and use it access a resource"
