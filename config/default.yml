@@ -1,0 +1,48 @@
+# Configuration file for the API Security Game
+# If you want to disable any level, just comment-it out here.
+
+app:
+  db_driver: mysql
+  db_configs:
+    - mysql:
+      - user: mysql
+      - pwd: password
+      - host: "127.0.0.1"
+    - postgres: "postgres://postgres:postgres@localhost/security_game"
+levels:
+  - intro:
+    - description: "A simple introductory level to teach the player how the game works."
+    - uri: "/granitebed"
+  - private_resource:
+    - description: "Find an undocumented resource by guessing the resource name "
+    - uri: "/funnybadger"
+  - leaky_header:
+    - description: "Locate a private backend server by looking at response headers"
+    - uri: "/valuehorn"
+  - unprotected_delete:
+    - description: "Delete a set of resources by making an undocumented call"
+    - uri: "/publicitytax"
+  - unprotected_collection:
+    - description: "Retrieve a collection to find a hidden datum"
+    - uri: "/remedybus"
+  - spoof_token:
+    - description: "Steal a token from a javascript application and use it access a resource"
+    - uri: "/speakercube"
+  - js_injection:
+    - description: "Use javascript injection to retrieve a variable from memory"
+    - uri: "/sardineladder"
+  - predictable_token:
+    - description: "an incremental access token that can be easily guessed"
+    - uri: "/tractorguitar"
+  - sql_injection:
+    - description: "An unprotected SQL call against a postgres DB that is open for exploitation.  The next link is located in the data"
+    - uri: "/stoneorder"  
+  - command_injection:
+    - description: "Access a protected file resource (simulated)"
+    - uri: "/saladsummit"
+  - mobile_app_key:
+    - description: "Extract an API secret key by reverse engineering a mobile app (requires advanced tooling)"
+    - uri: "/hazygorilla"
+  - finish:
+    - description: "A success message indicating that the player has won the game"
+    - uri: "/beltpoem"
