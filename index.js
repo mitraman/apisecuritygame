@@ -5,14 +5,14 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.text());
 // Parse JSON content as text so we can use an eval to parse it.  This will allow us to test a JS vulnerability
-app.use(bodyParser.text({type: 'application/json'}));
+//app.use(bodyParser.text({type: 'application/json'}));
 
 // Static directory
 app.use('/docs', express.static('docs'));
 
 // Setup database connection
 var pg = require('pg');
-var conString = "postgres://localhost/security_game";
+var conString = "postgres://postgres:postgres@localhost/security_game";
 
 var levels = {    
     intro : {
@@ -268,7 +268,7 @@ app.get(levels.unprotected_delete.uri, function( req, res ) {
             instructions: "Determine how to remove all of the tax record resources.  Open the documentation link in your browser to read the documentation for this level's API."
         },
         {
-            documentation: '/docs/publictytax.html'
+            documentation: '/docs/publicitytax.html'
         });                
     res.send(response);
 });
@@ -486,10 +486,17 @@ app.get(levels.js_injection.uri + '/hint/BerryBadger', function(req, res ) {
 
 app.post(levels.js_injection.uri + '/orders', function( req, res ) {    
     var secret = 'Congratulations, you have made it to level 7!  Your next API is located at ' + getNextLevelId(levels.js_injection);    
-    //console.log('('+req.body+')');
+    //console.dir(req.body);
         
     var responseValue = {"order_number": "3888203-13"};    
-    var jsonBody = eval('(' + req.body + ')');    
+    try {
+      var jsonBody = eval(req.body);    
+    }
+    catch(err) {
+      console.log(err);
+      res.send("Error: input body may not be empty");
+    }
+    
     res.send(responseValue);
 });
 
@@ -511,7 +518,7 @@ app.get(levels.predictable_token.uri, function( req, res ) {
     var response = 
         generateResponse(levels.predictable_token,
         {
-            obejctive: "Bypass access control to retrieve a protected resource.",
+            obejctive: "Bypass access control by guessing predictable access token to retrieve a protected resource.",
             instructions: "A protected resource is located at " + levels.predictable_token.uri + "/secret."
         },
         {
@@ -683,7 +690,8 @@ app.get(levels.sql_injection.uri + '/hint/helicopter', function( req, res ) {
 app.get(levels.sql_injection.uri + '/orders/:orderId', function( req, res ) {
     var id = req.params.orderId;
 
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+      //var conString = process.env.DATABASE_URL || conString;
+      pg.connect(conString, function(err, client, done) {      
       if(err) {
         return console.error('error fetching client from pool', err);
       }
