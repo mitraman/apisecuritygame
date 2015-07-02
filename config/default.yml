@@ -5,44 +5,79 @@ app:
   db_driver: mysql
   db_configs:
     - mysql:
-      - user: mysql
-      - pwd: password
-      - host: "127.0.0.1"
+    user: mysql
+    pwd: password
+    host: "127.0.0.1"
     - postgres: "postgres://postgres:postgres@localhost/security_game"
 levels:
-  - intro:
-    - description: "A simple introductory level to teach the player how the game works."
-    - uri: "/granitebed"
-  - private_resource:
-    - description: "Find an undocumented resource by guessing the resource name "
-    - uri: "/funnybadger"
-  - leaky_header:
-    - description: "Locate a private backend server by looking at response headers"
-    - uri: "/valuehorn"
-  - unprotected_delete:
-    - description: "Delete a set of resources by making an undocumented call"
-    - uri: "/publicitytax"
-  - unprotected_collection:
-    - description: "Retrieve a collection to find a hidden datum"
-    - uri: "/remedybus"
-  - spoof_token:
-    - description: "Steal a token from a javascript application and use it access a resource"
-    - uri: "/speakercube"
-  - js_injection:
-    - description: "Use javascript injection to retrieve a variable from memory"
-    - uri: "/sardineladder"
-  - predictable_token:
-    - description: "an incremental access token that can be easily guessed"
-    - uri: "/tractorguitar"
-  - sql_injection:
-    - description: "An unprotected SQL call against a postgres DB that is open for exploitation.  The next link is located in the data"
-    - uri: "/stoneorder"  
-  - command_injection:
-    - description: "Access a protected file resource (simulated)"
-    - uri: "/saladsummit"
-  - mobile_app_key:
-    - description: "Extract an API secret key by reverse engineering a mobile app (requires advanced tooling)"
-    - uri: "/hazygorilla"
-  - finish:
-    - description: "A success message indicating that the player has won the game"
-    - uri: "/beltpoem"
+  - name: "intro"
+  description: "A simple introductory level to teach the player how the game works."
+  uri: "/granitebed"
+  objective: "retrieve a resource"
+  instructions: "retreive /granitebed/welcome in order to move to the next level"
+  solution:
+    uri: "/granitebed/welcome"
+    response: "Congratulations, you have made it to the next level! Follow the link with a rel of 'next' to retrieve the next level's instructions."
+
+  - name: "private_resource"
+  description: "Find an undocumented resource by guessing the resource name "
+  uri: "/funnybadger"
+  objective: "retrieve a secret resource"
+  instructions: "The link to the next level is located in a list of invoices.  You must find and retrieve this private resource and retrieve it. If you get stuck you can follow the hint link, but try to solve the puzzle yourself first."
+  hints: 
+    - uri: "/funnybadger/hint"
+    message: "the resource can be accessed by guessing the URL.  What is a likely name for an invoices resource? If you are still stuck follow the link to the next hint"
+    - uri: "/funnybadger/hint/jackal"
+    message: "the resource is located at /funnybadger/invoices"
+  solution:
+    uri: "/funnybadger/invoices"
+    response: "congratulations, you have made it to the next level!"
+
+  - name: "leaky_header"
+  description: "Locate a private backend server by looking at response headers"
+  uri: "/valuehorn"
+  headers:
+    - "X-Version: 3.2.3"
+    - "X-SecretsServer: /sanityblanket"
+    - "X-MessageID: 1999a0sdd"
+  objective: "Find an undocumented, secret resource"
+  instructions: "The secret resource you need is located in a secret backend server.  Find the address of the backend server and make a GET call to its root URI."
+  solution:
+    uri: "/sanityblanket"
+    response: "congratulations, you have made it to the next level!"
+
+  - name: unprotected_delete
+  description: "Delete a set of resources by making an undocumented call"
+  uri: "/publicitytax"
+  
+  - name: unprotected_collection
+  description: "Retrieve a collection to find a hidden datum"
+  uri: "/remedybus"
+  
+  - name: spoof_token
+  description: "Steal a token from a javascript application and use it access a resource"
+  uri: "/speakercube"
+  
+  - name: js_injection
+  description: "Use javascript injection to retrieve a variable from memory"
+  uri: "/sardineladder"
+  
+  - name: predictable_token
+  description: "an incremental access token that can be easily guessed"
+  uri: "/tractorguitar"
+  
+  - name: sql_injection
+  description: "An unprotected SQL call against a postgres DB that is open for exploitation.  The next link is located in the data"
+  uri: "/stoneorder"  
+  
+  - name: command_injection
+  description: "Access a protected file resource (simulated)"
+  uri: "/saladsummit"
+  
+  - name: mobile_app_key
+  description: "Extract an API secret key by reverse engineering a mobile app (requires advanced tooling)"
+  uri: "/hazygorilla"
+  
+  - name: finish
+  description: "A success message indicating that the player has won the game"
+  uri: "/beltpoem"
