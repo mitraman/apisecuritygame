@@ -26,6 +26,8 @@ conf.levels.forEach(setupChallengeLevel);
 function setupChallengeLevel(currLevel, levelIndex, allLevels) {
   // Level's task
   
+  // Humans love indexes that start with 1, but machins love 0s
+  currLevel.index = levelIndex + 1;
   module.exports.namedIndex[currLevel.name] = currLevel;
     
   var props = {};

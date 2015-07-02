@@ -13,6 +13,8 @@ app:
     host: "127.0.0.1"
     - postgres: "postgres://postgres:postgres@localhost/security_game"
 levels:
+  
+  # Level 1
   - name: "intro"
   description: "A simple introductory level to teach the player how the game works."
   uri: "/granitebed"
@@ -22,6 +24,7 @@ levels:
     uri: "/granitebed/welcome"
     response: "Congratulations, you have made it to the next level! Follow the link with a rel of 'next' to retrieve the next level's instructions."
 
+  # Level 2
   - name: "private_resource"
   description: "Find an undocumented resource by guessing the resource name "
   uri: "/funnybadger"
@@ -36,6 +39,7 @@ levels:
     uri: "/funnybadger/invoices"
     response: "congratulations, you have made it to the next level!"
 
+  # Level 3
   - name: "leaky_header"
   description: "Locate a private backend server by looking at response headers"
   uri: "/valuehorn"
@@ -49,6 +53,7 @@ levels:
     uri: "/sanityblanket"
     response: "congratulations, you have made it to the next level!"
 
+  # Level 4
   - name: unprotected_delete
   description: "Delete a set of resources by making an undocumented call"
   uri: "/publicitytax"
@@ -58,6 +63,7 @@ levels:
   solution:
     module: true
 
+  # Level 5
   - name: unprotected_collection
   description: "Retrieve a collection to find a hidden datum"
   uri: "/remedybus"
@@ -66,19 +72,47 @@ levels:
   solution:
     module: true
 
-  
+  # Level 6
   - name: spoof_token
   description: "Steal a token from a javascript application and use it access a resource"
   uri: "/speakercube"
+  objective: "Bypass access control and retrieve a protected resource"
+  instructions: "The link to the next API is located in the protected resource : speakercube/secret. You can view a sample app client by following the url in the app property of this response."
+  docs: "/docs/speakercubeapp.html"
+  solution:
+    module: true
   
+  # Level 7
   - name: js_injection
   description: "Use javascript injection to retrieve a variable from memory"
   uri: "/sardineladder"
-  
+  objective: "Execute arbitrary javascript code"
+  instructions: "The URI for the next resource is located in a serverside javascript variable called: 'secret'"
+  docs: "/docs/sardineladder.html"
+  hints: 
+    - uri: "/sardineladder/hint"
+    message: "The API server is evaluating the JSON request bodies with an eval() statement."
+    - uri: "/sardineladder/BerryBadger"
+    message: "The server uses the variable responseValue to store the response it is sending.  Try sending responseValue='test' as the body of a POST request.  Consult this API's documentation to find a resource you can POST to."
+  solution: 
+    module: true
+
+  # Level 8
   - name: predictable_token
   description: "an incremental access token that can be easily guessed"
   uri: "/tractorguitar"
+  obejctive: "Bypass access control to retrieve a protected resource."
+  instructions: "A protected resource is located at /tractorguitar/secret."
+  docs: "/docs/tractorguitar.html"
+  hints: 
+    - uri: "/tractorguitar/hint"
+    message: "Try using the access token that the client application uses."
+    - uri: "/tractorguitar/galileo"
+    message: "Another expired token is 29902912.  Figure out the pattern and take advantage of it."
+  solution:
+    module: true  
   
+  # Level 9
   - name: sql_injection
   description: "An unprotected SQL call against a postgres DB that is open for exploitation.  The next link is located in the data"
   uri: "/stoneorder"  
