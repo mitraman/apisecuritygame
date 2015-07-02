@@ -111,19 +111,25 @@ levels:
     message: "Another expired token is 29902912.  Figure out the pattern and take advantage of it."
   solution:
     module: true  
-  
+
   # Level 9
+  - name: command_injection
+  description: "Access a protected file resource (simulated)"
+  uri: "/saladsummit"
+  objective: "retrieve data from a server-side file"
+  instructions: "The URI for the next API is located in a file named /etc/secret.txt hosted in the API server"
+  docs: "/docs/saladsummit.html"  
+  solution:
+    module: true
+  
+  # Level 10
   - name: sql_injection
   description: "An unprotected SQL call against a postgres DB that is open for exploitation.  The next link is located in the data"
   uri: "/stoneorder"  
   
-  - name: command_injection
-  description: "Access a protected file resource (simulated)"
-  uri: "/saladsummit"
-  
-  - name: mobile_app_key
-  description: "Extract an API secret key by reverse engineering a mobile app (requires advanced tooling)"
-  uri: "/hazygorilla"
+  #- name: mobile_app_key
+  # description: "Extract an API secret key by reverse engineering a mobile app (requires advanced tooling)"
+  # uri: "/hazygorilla"
   
   - name: finish
   description: "A success message indicating that the player has won the game"
