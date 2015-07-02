@@ -28,6 +28,11 @@ function setupChallengeLevel(currLevel, levelIndex, allLevels) {
       props.instructions = currLevel.instructions;
       
       var links = {};
+      
+      // Do we have a documentation link?
+      if (currLevel.docs) {
+        links.documentation = currLevel.docs;
+      }
            
       // Do we have any hints to take care of?      
       if (currLevel.hints && Array.isArray(currLevel.hints)) {

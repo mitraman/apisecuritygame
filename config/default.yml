@@ -49,7 +49,10 @@ levels:
   - name: unprotected_delete
   description: "Delete a set of resources by making an undocumented call"
   uri: "/publicitytax"
-  
+  objective: "Remove a collection of records from an API."
+  instructions: "Determine how to remove all of the tax record resources.  Open the documentation link in your browser to read the documentation for this level's API."
+  docs: "/docs/publicitytax.html"
+
   - name: unprotected_collection
   description: "Retrieve a collection to find a hidden datum"
   uri: "/remedybus"
