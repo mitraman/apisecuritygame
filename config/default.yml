@@ -126,6 +126,15 @@ levels:
   - name: sql_injection
   description: "An unprotected SQL call against a postgres DB that is open for exploitation.  The next link is located in the data"
   uri: "/stoneorder"  
+  objective: "Access private data from a database"
+  instructions: "This is an order retrieval API.  A link to the next level is in the description of one of the orders. The orders are contained within an SQL databse behind the API. Try to trick the server into providing you with all of the order table's rows."
+  hints:
+    - uri: "/stoneorder/hint"
+    message: "The order number you pass to the API, is used in an SQL statement: 'SELECT * FROM ORDERS WHERE ORDER_ID = idParameter."
+    - uri: "/stoneorder/hint/firetruck"
+    message: "Make the API construct an SQL statement that will be true for all orders.  Don't forget to URL-encode your statement"
+  solution:
+    module: true
   
   #- name: mobile_app_key
   # description: "Extract an API secret key by reverse engineering a mobile app (requires advanced tooling)"
@@ -134,3 +143,4 @@ levels:
   - name: finish
   description: "A success message indicating that the player has won the game"
   uri: "/beltpoem"
+  instructions: "CONGRATULATIONS!  You have finished the API security game."
