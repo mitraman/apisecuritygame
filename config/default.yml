@@ -1,0 +1,146 @@
+# Configuration file for the API Security Game
+# If you want to disable any level, just comment-it out here.
+#
+# It is not recommended to modify names of the levels. They are for
+# internal use only, and certain parts of the code depend on them.
+#
+app:
+  db_driver: mysql
+  db_configs:
+    - mysql:
+    user: mysql
+    pwd: password
+    host: "127.0.0.1"
+    - postgres: "postgres://postgres:postgres@localhost/security_game"
+levels:
+  
+  # Level 1
+  - name: "intro"
+  description: "A simple introductory level to teach the player how the game works."
+  uri: "/granitebed"
+  objective: "retrieve a resource"
+  instructions: "retreive /granitebed/welcome in order to move to the next level"
+  solution:
+    uri: "/granitebed/welcome"
+    response: "Congratulations, you have made it to the next level! Follow the link with a rel of 'next' to retrieve the next level's instructions."
+
+  # Level 2
+  - name: "private_resource"
+  description: "Find an undocumented resource by guessing the resource name "
+  uri: "/funnybadger"
+  objective: "retrieve a secret resource"
+  instructions: "The link to the next level is located in a list of invoices.  You must find and retrieve this private resource and retrieve it. If you get stuck you can follow the hint link, but try to solve the puzzle yourself first."
+  hints: 
+    - uri: "/funnybadger/hint"
+    message: "the resource can be accessed by guessing the URL.  What is a likely name for an invoices resource? If you are still stuck follow the link to the next hint"
+    - uri: "/funnybadger/hint/jackal"
+    message: "the resource is located at /funnybadger/invoices"
+  solution:
+    uri: "/funnybadger/invoices"
+    response: "congratulations, you have made it to the next level!"
+
+  # Level 3
+  - name: "leaky_header"
+  description: "Locate a private backend server by looking at response headers"
+  uri: "/valuehorn"
+  headers:
+    - "X-Version: 3.2.3"
+    - "X-SecretsServer: /sanityblanket"
+    - "X-MessageID: 1999a0sdd"
+  objective: "Find an undocumented, secret resource"
+  instructions: "The secret resource you need is located in a secret backend server.  Find the address of the backend server and make a GET call to its root URI."
+  solution:
+    uri: "/sanityblanket"
+    response: "congratulations, you have made it to the next level!"
+
+  # Level 4
+  - name: unprotected_delete
+  description: "Delete a set of resources by making an undocumented call"
+  uri: "/publicitytax"
+  objective: "Remove a collection of records from an API."
+  instructions: "Determine how to remove all of the tax record resources.  Open the documentation link in your browser to read the documentation for this level's API."
+  docs: "/docs/publicitytax.html"
+  solution:
+    module: true
+
+  # Level 5
+  - name: unprotected_collection
+  description: "Retrieve a collection to find a hidden datum"
+  uri: "/remedybus"
+  objective: "Retrieve a private resource"
+  instructions: "The link to the next level is hidden in Jay Grime's student record. However, the only student record you are authorized to retrieve is: /remedybus/students/778820. Jay Grime's student ID is 778441"
+  solution:
+    module: true
+
+  # Level 6
+  - name: spoof_token
+  description: "Steal a token from a javascript application and use it access a resource"
+  uri: "/speakercube"
+  objective: "Bypass access control and retrieve a protected resource"
+  instructions: "The link to the next API is located in the protected resource : speakercube/secret. You can view a sample app client by following the url in the app property of this response."
+  docs: "/docs/speakercubeapp.html"
+  solution:
+    module: true
+  
+  # Level 7
+  - name: js_injection
+  description: "Use javascript injection to retrieve a variable from memory"
+  uri: "/sardineladder"
+  objective: "Execute arbitrary javascript code"
+  instructions: "The URI for the next resource is located in a serverside javascript variable called: 'secret'"
+  docs: "/docs/sardineladder.html"
+  hints: 
+    - uri: "/sardineladder/hint"
+    message: "The API server is evaluating the JSON request bodies with an eval() statement."
+    - uri: "/sardineladder/BerryBadger"
+    message: "The server uses the variable responseValue to store the response it is sending.  Try sending responseValue='test' as the body of a POST request.  Consult this API's documentation to find a resource you can POST to."
+  solution: 
+    module: true
+
+  # Level 8
+  - name: predictable_token
+  description: "an incremental access token that can be easily guessed"
+  uri: "/tractorguitar"
+  obejctive: "Bypass access control to retrieve a protected resource."
+  instructions: "A protected resource is located at /tractorguitar/secret."
+  docs: "/docs/tractorguitar.html"
+  hints: 
+    - uri: "/tractorguitar/hint"
+    message: "Try using the access token that the client application uses."
+    - uri: "/tractorguitar/galileo"
+    message: "Another expired token is 29902912.  Figure out the pattern and take advantage of it."
+  solution:
+    module: true  
+
+  # Level 9
+  - name: command_injection
+  description: "Access a protected file resource (simulated)"
+  uri: "/saladsummit"
+  objective: "retrieve data from a server-side file"
+  instructions: "The URI for the next API is located in a file named /etc/secret.txt hosted in the API server"
+  docs: "/docs/saladsummit.html"  
+  solution:
+    module: true
+  
+  # Level 10
+  - name: sql_injection
+  description: "An unprotected SQL call against a postgres DB that is open for exploitation.  The next link is located in the data"
+  uri: "/stoneorder"  
+  objective: "Access private data from a database"
+  instructions: "This is an order retrieval API.  A link to the next level is in the description of one of the orders. The orders are contained within an SQL databse behind the API. Try to trick the server into providing you with all of the order table's rows."
+  hints:
+    - uri: "/stoneorder/hint"
+    message: "The order number you pass to the API, is used in an SQL statement: 'SELECT * FROM ORDERS WHERE ORDER_ID = idParameter."
+    - uri: "/stoneorder/hint/firetruck"
+    message: "Make the API construct an SQL statement that will be true for all orders.  Don't forget to URL-encode your statement"
+  solution:
+    module: true
+  
+  #- name: mobile_app_key
+  # description: "Extract an API secret key by reverse engineering a mobile app (requires advanced tooling)"
+  # uri: "/hazygorilla"
+  
+  - name: finish
+  description: "A success message indicating that the player has won the game"
+  uri: "/beltpoem"
+  instructions: "CONGRATULATIONS!  You have finished the API security game."
