@@ -74,6 +74,9 @@ levels:
   uri: "/remedybus"
   objective: "Retrieve a private resource"
   instructions: "The link to the next level is hidden in Jay Grime's student record. However, the only student record you are authorized to retrieve is: /remedybus/students/778820. Jay Grime's student ID is 778441"
+  hints: 
+    - uri: "/remedybus/hint"
+    message: "Have you tried to retrieve list of all students and check what information that gives?"  
   solution:
     module: true
 
@@ -84,6 +87,9 @@ levels:
   objective: "Bypass access control and retrieve a protected resource"
   instructions: "The link to the next API is located in the protected resource : speakercube/secret. You can view a sample app client by following the url in the app property of this response."
   docs: "/docs/speakercubeapp.html"
+  hints: 
+    - uri: "/speakercube/hint"
+    message: "Um, I don't know… Maybe, check the source of the Javascript backing that web app? o_O"  
   solution:
     module: true
   
@@ -97,8 +103,8 @@ levels:
   hints: 
     - uri: "/sardineladder/hint"
     message: "The API server is evaluating the JSON request bodies with an eval() statement."
-    - uri: "/sardineladder/BerryBadger"
-    message: "The server uses the variable responseValue to store the response it is sending.  Try sending responseValue='test' as the body of a POST request.  Consult this API's documentation to find a resource you can POST to."
+    - uri: "/sardineladder/hint/BerryBadger"
+    message: "The server uses the variable responseValue to store the response it is sending.  Try sending 'responseValue=secret' as the body of a POST request. Consult this API's documentation to find the resource URI you need to POST to."
   solution: 
     module: true
 
@@ -112,7 +118,7 @@ levels:
   hints: 
     - uri: "/tractorguitar/hint"
     message: "Try using the access token that the client application uses."
-    - uri: "/tractorguitar/galileo"
+    - uri: "/tractorguitar/hint/galileo"
     message: "Another expired token is 29902912.  Figure out the pattern and take advantage of it."
   solution:
     module: true  
