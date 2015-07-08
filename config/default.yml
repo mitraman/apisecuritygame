@@ -49,6 +49,11 @@ levels:
     - "X-MessageID: 1999a0sdd"
   objective: "Find an undocumented, secret resource"
   instructions: "The secret resource you need is located in a secret backend server.  Find the address of the backend server and make a GET call to its root URI."
+  hints: 
+    - uri: "/valuehorn/hint"
+    message: "Look for implementation details that might be leaking in this API's response"
+    - uri: "/valuehorn/hint/pluto"
+    message: "Did you check the response headers?"    
   solution:
     uri: "/sanityblanket"
     response: "congratulations, you have made it to the next level!"
