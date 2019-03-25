@@ -99,11 +99,14 @@ function setupChallengeLevel(currLevel, levelIndex, allLevels) {
         if (allLevels && allLevels[levelIndex+1] && allLevels[levelIndex+1].uri) {
           var nextLevelUri = allLevels[levelIndex+1].uri;
         }        
+
+        lessons = currLevel.solution.lessons || [];
         
         var response = 
           generateResponse( levelIndex, 
                             { message: currLevel.solution.response },
-                            { next: nextLevelUri });                            
+                            { next: nextLevelUri },
+                            lessons);                            
         res.send(response);
     });    
   }
@@ -117,7 +120,7 @@ console.log('Express server started on port %s', port);
 
 //--- Helper Functions
 
-function generateResponse(levelIndex, properties, links) {
+function generateResponse(levelIndex, properties, links, lessons) {
     var response = {};
     
     // Humans love indexes that start with 1, but machins love 0s
@@ -136,7 +139,15 @@ function generateResponse(levelIndex, properties, links) {
         }
     }
     if (response.links && response.links.length < 1 ) { delete response.links; }
-    
+
+    if ( lessons ) {
+      response["lessons-learned"] = lessons;
+      //for( var key in lessons ) {
+      //    response.lessons.push({rel: key, href: lessons[key]});
+      //}
+    }
+    if (response.lessons && response.lessons.length < 1 ) { delete response.lessons; }
+  
     return response;
 }
 
