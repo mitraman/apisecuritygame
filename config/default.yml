@@ -61,6 +61,7 @@ levels:
     uri: "/sanityblanket"
     response: "congratulations, you have made it to the next level!"
     lessons:
+      - "OWASP A3:2017 - Sensitive Data Exposure"
       - "Responses may contain dangerous information"
       - "Servers and intermediaries may inject dangerous metadata"
       - "Send metadata only when necessary"
