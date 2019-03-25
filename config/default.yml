@@ -39,6 +39,7 @@ levels:
     uri: "/funnybadger/invoices"
     response: "congratulations, you have made it to the next level!"
     lessons:
+      - "A5:2017 - Broken Access Control"
       - "RESTful APIs use easy to guess resource names and URIs"
       - "Don’t rely on lack of documentation for privacy"
 
