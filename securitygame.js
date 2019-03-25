@@ -140,7 +140,7 @@ function generateResponse(levelIndex, properties, links, lessons) {
     }
     if (response.links && response.links.length < 1 ) { delete response.links; }
 
-    if ( lessons ) {
+    if ( lessons && Array.isArray(lessons) && lessons.length > 0) {
       response["lessons-learned"] = lessons;
       //for( var key in lessons ) {
       //    response.lessons.push({rel: key, href: lessons[key]});
